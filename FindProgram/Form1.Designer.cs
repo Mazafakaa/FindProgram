@@ -29,7 +29,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.FileListBox = new System.Windows.Forms.ListBox();
             this.btnStart = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.start_directory = new System.Windows.Forms.TextBox();
@@ -46,22 +45,10 @@
             this.CountTestElement = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.TimerLabel = new System.Windows.Forms.Label();
+            this.FileItemsTree = new System.Windows.Forms.TreeView();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // FileListBox
-            // 
-            this.FileListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.FileListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.FileListBox.FormattingEnabled = true;
-            this.FileListBox.Location = new System.Drawing.Point(12, 19);
-            this.FileListBox.Name = "FileListBox";
-            this.FileListBox.Size = new System.Drawing.Size(730, 182);
-            this.FileListBox.TabIndex = 0;
-            this.FileListBox.DoubleClick += new System.EventHandler(this.FileListBox_DoubleClick);
             // 
             // btnStart
             // 
@@ -150,7 +137,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.FileListBox);
+            this.groupBox2.Controls.Add(this.FileItemsTree);
             this.groupBox2.Location = new System.Drawing.Point(12, 219);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(776, 212);
@@ -209,6 +196,14 @@
             this.TimerLabel.Size = new System.Drawing.Size(0, 13);
             this.TimerLabel.TabIndex = 14;
             // 
+            // FileItemsTree
+            // 
+            this.FileItemsTree.ImeMode = System.Windows.Forms.ImeMode.On;
+            this.FileItemsTree.Location = new System.Drawing.Point(12, 19);
+            this.FileItemsTree.Name = "FileItemsTree";
+            this.FileItemsTree.Size = new System.Drawing.Size(758, 182);
+            this.FileItemsTree.TabIndex = 1;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -236,8 +231,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.ListBox FileListBox;
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.TextBox start_directory;
@@ -253,7 +246,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label CountTestElement;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label TimerLabel;
+        public System.Windows.Forms.TreeView FileItemsTree;
+        public System.Windows.Forms.Label TimerLabel;
     }
 }
 

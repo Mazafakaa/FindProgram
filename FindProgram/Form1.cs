@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FindProgram.Models;
@@ -21,10 +22,63 @@ namespace FindProgram
             InitializeComponent();
         }
 
-
-        public void AddFindItem(string name)
+        public void AddFindItem(string fname, TreeNode node)
         {
-            FileListBox.Items.Add(name);
+            try
+            {
+                string str = "";
+                string[] name = fname.Split(Path.DirectorySeparatorChar);
+                if (name.Length > 1)
+                {
+                    str += name[1];
+                    for (int i = 2; i < name.Length; i++)
+                    {
+                        str += Path.DirectorySeparatorChar + name[i];
+                    }
+                }
+                if(node == null && name.Length > 0)
+                {
+                    node = FileItemsTree.Nodes[name[0]];
+                    if(node == null)
+                    {
+                        node = FileItemsTree.Nodes.Add(name[0], name[0]);
+                        if (str != "")
+                        {
+                            AddFindItem(str, node);
+                        }
+                    }
+                    else
+                    {
+                        if (str != "")
+                        {
+                            AddFindItem(str, node);
+                        }
+                    }
+                }
+                else if(node != null && name.Length > 0)
+                {
+                    TreeNode tn = node.Nodes[name[0]];
+                    if(tn == null)
+                    {
+                        tn = node.Nodes.Add(name[0], name[0]);
+                        if (str != "")
+                        {
+                            AddFindItem(str, tn);
+                        }
+                    }
+                    else
+                    {
+                        if (str != "")
+                        {
+                            AddFindItem(str, tn);
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageService.ShowMessageException(ex);
+            }
         }
 
         private void btnStop_Click(object sender, EventArgs e)
@@ -46,17 +100,21 @@ namespace FindProgram
             CountTestElement.Text = count++.ToString();
         }
 
-
+        public void AddItem(string name)
+        {
+            AddFindItem(name, null);
+        }
         public void StartDefault()
         {
             Program.Start(start_directory.Text, template_name.Text, template_text.Text);
-            FileListBox.Items.Clear();
+            FileItemsTree.Nodes.Clear();
             count = 0;
         }
 
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            
             if ((template_name.Text != "" && template_text.Text != "") || (template_name.Text == "" && template_text.Text != "") || (template_name.Text != "" && template_text.Text == ""))
             {
                 if (savesearch != null)
@@ -87,6 +145,7 @@ namespace FindProgram
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            
             FindInfo findInfo =  XMLWorker.Read();
             if(findInfo != null)
             {
@@ -95,21 +154,7 @@ namespace FindProgram
                 template_name.Text = findInfo.Template_name;
             }
             btnStop.Enabled = false;
-        }
-
-        private void FileListBox_DoubleClick(object sender, EventArgs e)
-        {
-            if (FileListBox.Items.Count > 0)
-            {
-                int index = FileListBox.SelectedIndex;
-                string param = FileListBox.Items[index].ToString();
-                Process.Start("explorer", param);
-                FileListBox.ClearSelected();
-            }
-        }
-        public void Tick(int time)
-        {
-            TimerLabel.Text = time.ToString();
+            
         }
     }
     

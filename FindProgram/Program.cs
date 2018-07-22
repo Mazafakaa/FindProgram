@@ -29,34 +29,29 @@ namespace FindProgram
             form = new Form1();
             return form;
         }
+        delegate void Go1(string text);
         public static void AddFindFile(string name)
         {
 
-            string path = "";
-            string[] str = name.Split(Char.Parse(@"\"));
-            path += str[0];
-            for(int i = 1; i < str.Length; i++)
+            if (form.FileItemsTree.InvokeRequired)
             {
-                if(str[i] != "")
-                {
-                    path += @"\" + str[i];
-                }
-            }
-            
-            form.AddFindItem(path);
+                Go1 go = new Go1(form.AddItem);
+
+                form.FileItemsTree.Invoke(go, name);
+            }         
         }
 
 
         public static void FileNameOutlut(string name)
         {
             string path = "";
-            string[] str = name.Split(Char.Parse(@"\"));
+            string[] str = name.Split(System.IO.Path.DirectorySeparatorChar);
             path += str[0];
             for (int i = 1; i < str.Length; i++)
             {
                 if (str[i] != "")
                 {
-                    path += @"\" + str[i];
+                    path += System.IO.Path.DirectorySeparatorChar + str[i];
                 }
             }
             form.FileNameOutlut(path);
@@ -123,7 +118,9 @@ namespace FindProgram
 
         public static void Tick(int time)
         {
-            form.Tick(time);
+            form.TimerLabel.Invoke(new Action<int>((s) => form.TimerLabel.Text = s.ToString()), time);
+
+
         }
     }
 }

@@ -16,8 +16,10 @@ namespace FindProgram
             thread = new Thread(Run);
             thread.Start();
         }
+        
         private void Run()
         {
+            
             while(true)
             {
                 Thread.Sleep(1000);
